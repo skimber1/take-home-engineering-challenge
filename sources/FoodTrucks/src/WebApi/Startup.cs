@@ -1,9 +1,9 @@
+using FoodTrucks.Api.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using FoodTrucks.Api.Extensions;
 
 namespace FoodTrucks.Api
 {
@@ -19,6 +19,7 @@ namespace FoodTrucks.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDistributedMemoryCache();
             services.AddServices();
             services.AddControllers();
         }

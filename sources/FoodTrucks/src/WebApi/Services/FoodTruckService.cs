@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace FoodTrucks.Api.Services
 {
@@ -10,6 +11,11 @@ namespace FoodTrucks.Api.Services
     internal sealed class FoodTruckService : IFoodTruckService
     {
         /// <summary>
+        /// Gets the Cache.
+        /// </summary>
+        private IDistributedCache Cache { get; }
+
+        /// <summary>
         /// Gets the Food Truck Store.
         /// </summary>
         private IFoodTruckStore FoodTruckStore { get; }
@@ -17,9 +23,13 @@ namespace FoodTrucks.Api.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="FoodTrucksController"/> class.
         /// </summary>
+        /// <param name="cache">The <see cref="IDistributedCache"/>.</param>
         /// <param name="foodTruckStore">The <see cref="IFoodTruckStore"/>.</param>
-        public FoodTruckService(IFoodTruckStore foodTruckStore)
+        public FoodTruckService(
+            IDistributedCache cache,
+            IFoodTruckStore foodTruckStore)
         {
+            Cache = cache;
             FoodTruckStore = foodTruckStore;
         }
 
@@ -38,7 +48,20 @@ namespace FoodTrucks.Api.Services
         /// <param name="locationId">The location id for the food truck.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task<FoodTruck> GetAsync(int locationId, CancellationToken cancellationToken)
-            => FoodTruckStore.GetAsync(locationId, cancellationToken);
+        public async Task<FoodTruck> GetAsync(int locationId, CancellationToken cancellationToken)
+        {
+            var cacheKey = $"FoodTruck-LocationId-{locationId}";
+
+            // Attempt to retrieve the item from the cache.
+            var result = await Cache.GetStringAsync(cacheKey, cancellationToken);
+
+            // If the item was not found, 
+            if (result == null)
+            {
+
+            }
+
+            return result;
+        }
     }
 }
