@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -15,6 +16,11 @@ namespace FoodTrucks.Api.Services
         /// The Collection of Food Trucks.
         /// </summary>
         private ConcurrentDictionary<int, FoodTruck> FoodTrucks { get; } = new ConcurrentDictionary<int, FoodTruck>();
+
+        /// <summary>
+        /// The Collection of Food Trucks mapped to Blocks.
+        /// </summary>
+        private ConcurrentDictionary<string, HashSet<int>> FoodTruckBlockMapping { get; } = new ConcurrentDictionary<string, HashSet<int>>();
 
         /// <summary>
         /// Gets the Count of the Food Trucks.
@@ -51,6 +57,21 @@ namespace FoodTrucks.Api.Services
             // Add the item to the collection simply overwriting if it already exists.
             FoodTrucks.AddOrUpdate(foodTruck.LocationId, foodTruck, (key, old) => foodTruck);
 
+            // Adds the Block mapping for the food truck.
+            // If an entry for the block doesn't exist, a new entry is added with a new HashSet containing the food truck.
+            // If an existing entry exists, the HashSet is updated.
+            FoodTruckBlockMapping.AddOrUpdate(
+                foodTruck.Block,
+                new HashSet<int>
+                {
+                    foodTruck.LocationId,
+                },
+                (key, old) =>
+                {
+                    old.Add(foodTruck.LocationId);
+                    return old;
+                });
+
             return Task.CompletedTask;
         }
 
@@ -63,6 +84,30 @@ namespace FoodTrucks.Api.Services
         public Task<FoodTruck> GetAsync(int locationId, CancellationToken cancellationToken)
         {
             FoodTrucks.TryGetValue(locationId, out var result);
+
+            return Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// Gets the collection of food trucks for a given block.
+        /// </summary>
+        /// <param name="block">The block.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task<ICollection<FoodTruck>> GetByBlockIdAsync(string block, CancellationToken cancellationToken)
+        {
+            ICollection<FoodTruck> result = new List<FoodTruck>();
+
+            if (FoodTruckBlockMapping.TryGetValue(block, out var foodTruckLocationIds))
+            {
+                foreach (var foodTruckLocationId in foodTruckLocationIds)
+                {
+                    if (FoodTrucks.TryGetValue(foodTruckLocationId, out var foodTruck))
+                    {
+                        result.Add(foodTruck);
+                    }
+                }
+            }
 
             return Task.FromResult(result);
         }
