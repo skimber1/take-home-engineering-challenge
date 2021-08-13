@@ -3,7 +3,11 @@
     /// <summary>
     /// The Food Truck Model.
     /// </summary>
-    /// <remarks>Represents a single food truck.</remarks>
+    /// <remarks>
+    ///     Represents a single food truck.
+    ///     The data model is minimal as part of the MVP but could easily be
+    ///     extended without changing any other files within the project.
+    /// </remarks>
     public sealed class FoodTruck
     {
         /// <summary>

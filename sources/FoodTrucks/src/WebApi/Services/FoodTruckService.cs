@@ -15,6 +15,8 @@ namespace FoodTrucks.Api.Services
         /// </summary>
         private IFoodTruckStore FoodTruckStore { get; }
 
+        // FUTURE: Include a Cache Service for short term data caching.
+
         /// <summary>
         /// Initializes a new instance of the <see cref="FoodTrucksController"/> class.
         /// </summary>
@@ -40,7 +42,10 @@ namespace FoodTrucks.Api.Services
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task<FoodTruck> GetAsync(int locationId, CancellationToken cancellationToken)
-            => FoodTruckStore.GetAsync(locationId, cancellationToken);
+        {
+            // FUTURE: Implement a caching strategy to bypass the store for frequent requests.
+            return FoodTruckStore.GetAsync(locationId, cancellationToken);
+        }
 
         /// <summary>
         /// Gets the collection of food trucks for a given block id.
@@ -49,6 +54,9 @@ namespace FoodTrucks.Api.Services
         /// <param name="cancellationToken">The cancellation token.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task<ICollection<FoodTruck>> GetByBlockIdAsync(string block, CancellationToken cancellationToken)
-            => FoodTruckStore.GetByBlockIdAsync(block, cancellationToken);
+        {
+            // FUTURE: Implement a caching strategy to bypass the store for frequent requests.
+            return FoodTruckStore.GetByBlockIdAsync(block, cancellationToken);
+        }
     }
 }
