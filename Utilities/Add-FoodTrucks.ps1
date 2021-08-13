@@ -1,6 +1,6 @@
 
 ## Variables
-$CreateFoodTruckUrl = "http://localhost:46401/api/foodtrucks"
+$CreateFoodTruckUrl = "http://localhost:5000/api/foodtrucks"
 
 ## Read in the CSV File.
 $FoodTrucks = Get-Content ..\Mobile_Food_Facility_Permit.csv | ConvertFrom-Csv
