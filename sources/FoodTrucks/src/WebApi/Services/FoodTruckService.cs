@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FoodTrucks.Api.Services
@@ -40,5 +41,14 @@ namespace FoodTrucks.Api.Services
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task<FoodTruck> GetAsync(int locationId, CancellationToken cancellationToken)
             => FoodTruckStore.GetAsync(locationId, cancellationToken);
+
+        /// <summary>
+        /// Gets the collection of food trucks for a given block id.
+        /// </summary>
+        /// <param name="block">The block id.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task<ICollection<FoodTruck>> GetByBlockIdAsync(string block, CancellationToken cancellationToken)
+            => FoodTruckStore.GetByBlockIdAsync(block, cancellationToken);
     }
 }

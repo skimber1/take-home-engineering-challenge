@@ -88,5 +88,41 @@ namespace FoodTrucks.Api
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the collection of food trucks for a given block.
+        /// </summary>
+        /// <param name="blockId">The block id.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        [HttpGet("blocks/{block}/trucks")]
+        public async Task<IActionResult> GetByBlockIdAsync(string block)
+        {
+            IActionResult result;
+
+            try
+            {
+                var truckResult = await FoodTruckService.GetByBlockIdAsync(block, default);
+
+                if (truckResult?.Count <= 0)
+                {
+                    result = NotFound();
+                }
+                else
+                {
+                    result = Ok(truckResult);
+                }
+            }
+            catch (Exception e)
+            {
+                // TODO: Add Logging.
+
+                result = Problem(
+                    statusCode: StatusCodes.Status500InternalServerError,
+                    detail: e.Message);
+            }
+
+            return result;
+        }
+
     }
 }
