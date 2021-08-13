@@ -12,9 +12,9 @@
         public string Address { get; set; }
 
         /// <summary>
-        /// Gets or sets the Block Id.
+        /// Gets or sets the Block.
         /// </summary>
-        public int BlockId { get; set; }
+        public string Block { get; set; }
 
         /// <summary>
         /// Gets or sets the Location Id.
