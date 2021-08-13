@@ -1,3 +1,38 @@
+# Setup
+
+### Build/Startup
+1. Clone the repo.
+2. Open a PowerShell command prompt and change directory to the root of the repro.
+3. Run the `dotnet run --project .\sources\FoodTrucks\src\WebApi\WebApi.csproj` to start the API.
+
+### Load Sample Data
+1. Open a PowerShell command prompt and change directory to the repro root.
+2. Change directory to `\Utilities` and run `.\Add-FoodTrucks.ps1`
+
+### Testing with Postman
+*Optionally, import the Postman Collection from [\Utilities\Postman\Food Trucks.postman_collection.json](https://github.com/skimber1/take-home-engineering-challenge/blob/main/Utilities/Add-FoodTrucks.ps1).*
+
+#### Add a new food truck example:
+**PUT** http://localhost:5000/api/foodtrucks  
+
+```
+{  
+  "LocationId": 15243811,  
+  "Address": "555 MISSION ST",  
+  "Block": "5286A"
+}
+```
+
+#### Get a food truck by Location Id example:
+**GET** http://localhost:5000/api/foodtrucks/15243811
+
+#### Get the food trucks on a block example:
+**GET** http://localhost:5000/api/foodtrucks/blocks/5286A/trucks
+
+
+___
+
+
 # Take Home Engineering Challenge
 
 Commercial Software Engineering is a very practical team at Microsoft and this extends to the way that we work with you to find out if this team is a great fit for you. We want you to come away with a great understanding of the work that we actually do day to day and what it is like to work with us.
