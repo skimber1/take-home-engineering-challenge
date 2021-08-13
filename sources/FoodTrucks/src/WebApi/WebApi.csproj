@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>FoodTrucks.Api</RootNamespace>
+    <AssemblyName>FoodTrucks.Api</AssemblyName>
+  </PropertyGroup>
+
+</Project>
