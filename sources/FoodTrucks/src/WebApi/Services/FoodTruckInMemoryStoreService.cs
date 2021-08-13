@@ -17,6 +17,14 @@ namespace FoodTrucks.Api.Services
         private ConcurrentDictionary<int, FoodTruck> FoodTrucks { get; } = new ConcurrentDictionary<int, FoodTruck>();
 
         /// <summary>
+        /// Gets the Count of the Food Trucks.
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task<int> GetCountAsync(CancellationToken cancellationToken)
+            => Task.FromResult(FoodTrucks.Count);
+
+        /// <summary>
         /// Creates a new food truck.
         /// </summary>
         /// <param name="foodTruck">The <see cref="FoodTruck"/> to create.</param>
@@ -29,7 +37,7 @@ namespace FoodTrucks.Api.Services
                 throw new ArgumentNullException(nameof(foodTruck));
             }
 
-            if (foodTruck.LocationId == default)
+            if (foodTruck.LocationId <= 0)
             {
                 throw new ArgumentException("And invalid food truck location id was provided.");
             }
