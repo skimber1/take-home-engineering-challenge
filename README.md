@@ -1,6 +1,6 @@
 # Summary
 
-This is a .NET Core 5.0 Web API which uses leverages an `IServiceCollection` to support inversion of control (IoC) throughout. Each class is near single purpose and dependencies only exist on the interfaces - different implemenations could easily be swapped in and out of the service container.
+This is a .NET Core 5.0 Web API which leverages an `IServiceCollection` to support inversion of control (IoC) throughout. Each class is near single purpose and dependencies only exist on the interfaces - different implemenations could easily be swapped in and out of the service container.
 
 The storage implemation is currently done with thread safe concurrent dictionaries. A queryable storage system, such as Azure Cosmos DB, would be an incredable (and stateful) improvement to support a rich query interface. The change would be fairly trivial as it simply be a new implemenation of the `IFoodTruckStore` replacing the existing implemenation in the service container.
 
